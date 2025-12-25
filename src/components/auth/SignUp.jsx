@@ -4,10 +4,17 @@ import { Button, Input, Card, Alert } from "../ui/index.jsx";
 export function SignUp({ onSignUp, onSwitchToSignIn, loading, error }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSignUp(email, password);
+    setSuccessMsg("");
+    const success = await onSignUp(email, password);
+    if (success) {
+      setSuccessMsg("Verification link sent! Please check your email inbox to confirm your account.");
+      setEmail("");
+      setPassword("");
+    }
   };
 
   return (
@@ -18,6 +25,7 @@ export function SignUp({ onSignUp, onSwitchToSignIn, loading, error }) {
       </div>
 
       {error && <Alert type="error" className="mb-4">{error}</Alert>}
+      {successMsg && <Alert type="success" className="mb-4">{successMsg}</Alert>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -30,6 +38,7 @@ export function SignUp({ onSignUp, onSwitchToSignIn, loading, error }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            disabled={loading || !!successMsg}
           />
         </div>
 
@@ -43,6 +52,7 @@ export function SignUp({ onSignUp, onSwitchToSignIn, loading, error }) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            disabled={loading || !!successMsg}
           />
         </div>
 
@@ -50,7 +60,7 @@ export function SignUp({ onSignUp, onSwitchToSignIn, loading, error }) {
           type="submit"
           variant="secondary"
           className="w-full"
-          disabled={loading}
+          disabled={loading || !!successMsg}
         >
           {loading ? "Creating Account..." : "Sign Up"}
         </Button>

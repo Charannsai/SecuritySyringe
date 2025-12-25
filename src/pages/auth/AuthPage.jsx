@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SignIn } from "../../components/auth/SignIn";
 import { SignUp } from "../../components/auth/SignUp";
 
-export function AuthPage({ onSignIn, onSignUp, loading, error }) {
+export function AuthPage({ onSignIn, onOAuth, onSignUp, onResetPassword, loading, error }) {
   const [isSignUp, setIsSignUp] = useState(false);
 
   return (
@@ -18,7 +18,9 @@ export function AuthPage({ onSignIn, onSignUp, loading, error }) {
         ) : (
           <SignIn
             onSignIn={onSignIn}
+            onOAuth={onOAuth}
             onSwitchToSignUp={() => setIsSignUp(true)}
+            onResetPassword={onResetPassword}
             loading={loading}
             error={error}
           />

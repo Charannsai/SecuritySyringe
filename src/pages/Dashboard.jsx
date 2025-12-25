@@ -1,8 +1,9 @@
 import { Alert } from "../components/ui/index.jsx";
 import { UserForm } from "../components/users/UserForm";
 import { UserList } from "../components/users/UserList";
+import { UserProfile } from "../components/users/UserProfile";
 
-export function Dashboard({ users, loading, error, onAddUser, onUpdateUser, onDeleteUser }) {
+export function Dashboard({ session, users, loading, error, onAddUser, onUpdateUser, onDeleteUser, onUpdateEmail }) {
   return (
     <div className="space-y-6">
       <div>
@@ -12,14 +13,26 @@ export function Dashboard({ users, loading, error, onAddUser, onUpdateUser, onDe
 
       {error && <Alert type="error">{error}</Alert>}
 
-      <UserForm onAddUser={onAddUser} loading={loading} />
-      
-      <UserList
-        users={users}
-        loading={loading}
-        onUpdateUser={onUpdateUser}
-        onDeleteUser={onDeleteUser}
-      />
+      <div className="grid gap-6 md:grid-cols-2">
+        <div className="space-y-6">
+          <UserProfile
+            session={session}
+            onUpdateEmail={onUpdateEmail}
+            loading={loading}
+            error={error}
+          />
+          <UserForm onAddUser={onAddUser} loading={loading} />
+        </div>
+
+        <div>
+          <UserList
+            users={users}
+            loading={loading}
+            onUpdateUser={onUpdateUser}
+            onDeleteUser={onDeleteUser}
+          />
+        </div>
+      </div>
     </div>
   );
 }
