@@ -19,6 +19,12 @@ export function ProfileModal({ isOpen, onClose, session }) {
             const savedPath = localStorage.getItem(getStorageKey());
             if (savedPath) {
                 setAvatarPath(savedPath);
+<<<<<<< HEAD
+=======
+            } else {
+                // If no local path, try to find one on server
+                fetchAvatarFromServer();
+>>>>>>> c0a0979cac7744578eda4155f682609630454973
             }
         }
     }, [session?.user?.id, session?.access_token]);
@@ -53,12 +59,17 @@ export function ProfileModal({ isOpen, onClose, session }) {
     };
 
     useEffect(() => {
+<<<<<<< HEAD
         if (isOpen) {
             if (avatarPath && !avatarUrl) {
                 loadAvatar();
             } else if (!avatarPath) {
                 fetchAvatarFromServer();
             }
+=======
+        if (isOpen && avatarPath && !avatarUrl) {
+            loadAvatar();
+>>>>>>> c0a0979cac7744578eda4155f682609630454973
         }
     }, [isOpen, avatarPath]);
 
